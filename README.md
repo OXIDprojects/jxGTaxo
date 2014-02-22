@@ -1,7 +1,7 @@
-jxExcptns
+jxGTaxo
 =========
 
-OXID eShop admin module for displaying the file exception_log.txt
+OXID eShop Admin Extension for Setting up the Google Taxonomy for each Category.
 
 
 Usage
@@ -10,5 +10,7 @@ Usage
   After this navigate in the admin backend of the shop to "Extension - Modules". Select the module and click on "Activate".
   If you open the menu "System", you will see the the new menu item "Exception Log".
   
+Example:  
+![screenshot](https://github.com/job963/jxGTaxo/raw/master/docs/img/edit-taxonomy-rs.png)
   
-Tested in OXID 4.6/4.7/5.0
+Tested in OXID 4.7.x
