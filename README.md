@@ -12,5 +12,8 @@ Usage
   
 Example:  
 ![screenshot](https://github.com/job963/jxGTaxo/raw/master/docs/img/edit-taxonomy-rs.png)
+
+**IMPORTANT**  
+This module requires an additional module for exporting/creating a Google productfeed file.
   
 Tested in OXID 4.7.x
