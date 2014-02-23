@@ -12,11 +12,11 @@ $aModule = array(
     'id'           => 'jxgtaxo',
     'title'        => 'jxGTaxo - Google Product Taxonomy',
     'description'  => array(
-                        'de'=>'Konfigurierbares Command Board',
+                        'de'=>'Definition der Google Produkt Taxonomie je Kategorie',
                         'en'=>'Define the Google Product Taxonomy for each Category'
                         ),
     'thumbnail'    => 'jxgtaxo.png',
-    'version'      => '0.2',
+    'version'      => '0.1',
     'author'       => 'Joachim Barthel',
     'url'          => 'https://github.com/job963/jxGTaxo',
     'email'        => 'jobarthel@gmail.com',
@@ -27,6 +27,10 @@ $aModule = array(
                         ),
     'templates'    => array(
         'jxgtaxo.tpl' => 'jxmods/jxgtaxo/views/admin/tpl/jxgtaxo.tpl'
+                        ),
+    'events'       => array(
+        'onActivate'   => 'jxgtaxo_install::onActivate', 
+        'onDeactivate' => 'jxgtaxo_install::onDeactivate'
                         ),
     'settings'     => array(
                         array(
