@@ -2,17 +2,14 @@
 $sLangName  = "English";
 $iLangNr    = 1;
 $aLang = array(
-    'jxcmdboard_menu'         => 'Command Board',
-    'JXCMDBOARD_TITLE'        => 'Command Board',
-    'JXCMDBOARD_NOCONTENT'    => 'No entries found.',
-    'JXCMDBOARD_EXECUTING'    => 'Executing',
-    'JXCMDBOARD_DURATION'     => 'Duration',
-    'JXCMDBOARD_RESPONSE'     => 'Response',
-    'JXCMDBOARD_OK'           => 'OK',
-    'JXCMDBOARD_ERROR'        => 'Error',
+    'jxgtaxo_menu'              => 'Google Product Taxonomy',
+    'JXGTAXO_TITLE'             => 'Google Product Taxonomy',
+    'JXGTAXO_HIDDEN'            => 'H',
+    'JXGTAXO_TAXOEDITHERE'      => 'Google Product Taxonomy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>&darr;</b> enter here <b>&darr;</b>',
     
-    'SHOP_MODULE_GROUP_JXCMDBOARD_INCLUDEMODULES'   => 'Module Integration',
-    'SHOP_MODULE_sJxCmdBoardIncludeFiles'           => 'Definition of module keys (Example: jxcmd_KEYLABEL.inc.php)',
+    'SHOP_MODULE_GROUP_JXGTAXO_DISPLAY'        => 'Display Options',
+    'SHOP_MODULE_sJxGTaxoDisplayInactive'      => 'Show deactiveated categories',
+    'SHOP_MODULE_sJxGTaxoDisplayHidden'        => 'Show hidden categories',
     
     'charset'                 => 'ISO-8859-15',
 );

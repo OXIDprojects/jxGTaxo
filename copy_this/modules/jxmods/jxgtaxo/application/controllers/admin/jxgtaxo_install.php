@@ -30,9 +30,6 @@ class jxgtaxo_install
         //$bConfig_DropOnDeactivate = $myConfig->getConfigParam("bJxInventoryDropOnDeactivate");
         $oDb = oxDb::getDb(); 
 
-        //$isUtf = oxRegistry::getConfig()->isUtf(); 
-        //$sCollate = ($isUtf ? "COLLATE 'utf8_general_ci'" : "");
-        
         $sSql = "ALTER TABLE oxcategories "
                 . "ADD COLUMN `JXGOOGLETAXONOMY` VARCHAR(255) NULL "; 
                 

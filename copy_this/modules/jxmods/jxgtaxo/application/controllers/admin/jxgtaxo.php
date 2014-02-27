@@ -33,32 +33,9 @@ class jxgtaxo extends oxAdminView
         $oSmarty = oxUtilsView::getInstance()->getSmarty();
         $oSmarty->assign( "oViewConf", $this->_aViewData["oViewConf"]);
         $oSmarty->assign( "shop", $this->_aViewData["shop"]);
-        $myConfig = oxRegistry::get("oxConfig");
-        $sLogsDir = $myConfig->getLogsDir();
-        $sShopUrl = $myConfig->getShopUrl();
-        $oModule = oxNew('oxModule');
-        $sModuleUrl = $sShopUrl . 'modules/' . $oModule->getModulePath("jxcmdboard") . '/';
         
-        /*$aIncFiles = array();
-        $aIncFiles = explode( ',', $myConfig->getConfigParam("sJxCmdBoardIncludeFiles") );
-        $aIncModules = array();
-        $sIncPath = $this->jxGetModulePath() . '/application/controllers/admin/';
-        foreach ($aIncFiles as $sIncFile) { 
-            $sIncFile = $sIncPath . 'jxcmd_' . $sIncFile . '.inc.php';
-            require $sIncFile;
-        } 
-
-        $oSmarty->assign("aIncModules",$aIncModules);
-        $oSmarty->assign("output",$this->output);
-        $oSmarty->assign("response",$this->response['http_code']);
-        $oSmarty->assign("exectime",$this->exectime);
-        $oSmarty->assign("exectitle",oxConfig::getParameter("jxcmd_title"));*/
-        
-        $this->jxGetCategoryList('oxrootid', '');
+        $this->jxGetCategoryList('oxrootid', '', '');
         $this->jxSortCategoryList();
-        /*echo '<pre>';
-        print_r($this->aCategories);
-        echo '</pre>';*/
         
         $oSmarty->assign("aCategories",$this->aCategories);
 
@@ -73,38 +50,49 @@ class jxgtaxo extends oxAdminView
         $aTaxoVals = oxConfig::getParameter( "jxgt_taxoval" ); 
         foreach ($aTaxoVals as $key => $sTaxoValue) {
             $sSql = "UPDATE oxcategories SET jxgoogletaxonomy = '{$aTaxoVals[$key]}' WHERE oxid = '{$aCatIds[$key]}' ";
-            //echo '<pre>'.$sSql.'</pre><br />';
             $oDb->execute($sSql);
         }
         return;
     }
     
     
-    public function jxGetCategoryList( $sParent, $sPath )
+    public function jxGetCategoryList( $sParent, $sNoPath, $sCatPath )
     {
-        if ( !empty($sPath) )
-            $sPath .= '.';
+        $myConfig = $this->getConfig();
         
-        $sSql = "SELECT c.oxid, c.oxtitle, (SELECT COUNT(*) FROM oxcategories c1 WHERE c1.oxparentid=c.oxid) AS count, c.jxgoogletaxonomy AS taxonomy "
+        if ( !empty($sNoPath) ) {
+            $sNoPath .= '.';
+            $sCatPath .= ' / ';
+        }
+        
+        $sWhere = "";
+        if ( $myConfig->getConfigParam("sJxGTaxoDisplayInactive") == FALSE )
+            $sWhere .= "AND c.oxactive = 1 ";
+        if ( $myConfig->getConfigParam("sJxGTaxoDisplayHidden") == FALSE )
+            $sWhere .= "AND c.oxhidden = 0 ";
+        
+        $sSql = "SELECT c.oxid, c.oxtitle, c.oxactive, c.oxhidden, "
+                    . "(SELECT COUNT(*) FROM oxobject2category o2c WHERE o2c.oxcatnid = c.oxid) AS artcount, "
+                    . "(SELECT COUNT(*) FROM oxcategories c1 WHERE c1.oxparentid=c.oxid) AS count, c.jxgoogletaxonomy AS taxonomy "
                 . "FROM oxcategories c "
                 . "WHERE c.oxparentid = '$sParent' "
-                    . "AND c.oxactive = 1 "
+                    . $sWhere
                 . "ORDER BY c.oxtitle";
         $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
         $rs = $oDb->Execute($sSql);
-        //$aDelDefs = array();
+
         $i = 1;
         while (!$rs->EOF) {
             $aCols = $rs->fields;
-            $aCols['path'] = $sPath . $i;
+            $aCols['path'] = $sNoPath . $i;
+            $aCols['oxtitle'] = $sCatPath . $aCols['oxtitle'];
             array_push($this->aCategories, $aCols);
-            if ($aCols['count'] != 0)
-                $this->jxGetCategoryList($aCols['oxid'], $aCols['path']);
+            if ($aCols['count'] != 0) {
+                $this->jxGetCategoryList($aCols['oxid'], $aCols['path'], $aCols['oxtitle']);
+            }
             $rs->MoveNext();
             $i++;
         }
-
-            
     }
     
     
@@ -112,7 +100,7 @@ class jxgtaxo extends oxAdminView
     {
         $aSort = array();
         foreach ($this->aCategories as $key => $aRow) {
-            $aSort[$key] = $aRow['path'];
+            $aSort[$key] = $aRow['oxtitle'];
         }
         array_multisort($aSort, SORT_ASC, SORT_STRING, $this->aCategories);
     }

@@ -1,6 +1,6 @@
 [{*debug*}]
 [{include file="headitem.tpl" title="GENERAL_ADMIN_TITLE"|oxmultilangassign box=" "}]
-[{*<link href="[{$oViewConf->getModuleUrl('jxgtaxo','out/admin/src/jxcmdboard.css')}]" type="text/css" rel="stylesheet">*}]
+<link href="[{$oViewConf->getModuleUrl('jxgtaxo','out/admin/src/jxgtaxo.css')}]" type="text/css" rel="stylesheet">
 
 <script type="text/javascript">
   if(top)
@@ -17,27 +17,12 @@
     }
 </script>
 
-<style>
-    .flatInput {
-        padding-left: 4px;
-        border: 1px solid transparent;
-        width: 99%;
-        background-color: transparent;
-    }
-    .flatInput:hover {
-        border: 1px solid #a0a0a0;
-        background-color: #ffffff;
-    }
-    .flatInput:focus {
-        background-color: #ffffff;
-        box-shadow: 0 0 3px #0000ff;
-    }
-</style>
-
 [{php}] 
     $sIsoLang = oxLang::getInstance()->getLanguageAbbr(); 
     $this->assign('IsoLang', $sIsoLang);
 [{/php}]
+
+[{assign var="oConfig" value=$oViewConf->getConfig()}]
 
 <body>
 <div class="center" style="height:100%;">
@@ -87,18 +72,36 @@
                             <td class="listfilter first" style="[{$headStyle}]" height="15" width="30" align="center">
                                 <div class="r1"><div class="b1">[{ oxmultilang ident="GENERAL_ACTIVTITLE" }]</div></div>
                             </td>
+                            [{ if $oConfig->getConfigParam("sJxGTaxoDisplayHidden") }]
+                                <td class="listfilter" style="[{$headStyle}]" width="30" align="center"><div class="r1"><div class="b1">[{ oxmultilang ident="JXGTAXO_HIDDEN" }]</div></div></td>
+                            [{/if}]
+                            <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1"> </div></div></td>
                             <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1">[{ oxmultilang ident="GENERAL_CATEGORY" }]</div></div></td>
+                            <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1"> </div></div></td>
                             <td class="listfilter" style="[{$headStyle}]"><div class="r1"><div class="b1">[{ oxmultilang ident="JXGTAXO_TAXOEDITHERE" }]</div></div></td>
                         </tr>
                         
                 [{foreach name=rows item=category from=$aCategories}]
                     [{ cycle values="listitem,listitem2" assign="listclass" }]
                     <tr>
+                        <td valign="top" class="[{ $listclass}][{if $category.oxactive == 1}] active[{/if}]">
+                            <div class="listitemfloating">
+                                &nbsp;
+                            </div>
+                        </td>
+                        [{ if $oConfig->getConfigParam("sJxGTaxoDisplayHidden") }]
+                            <td valign="top" class="[{ $listclass}][{if $category.oxhidden == 1 }] hidden[{/if}]">
+                                <div class="listitemfloating" align="center">
+                                    &nbsp;
+                                </div>
+                            </td>
+                        [{/if}]
                         <td class="[{$listclass}]">
                             <div class="listitemfloating">&nbsp;[{ $category.path }]&nbsp;</div>
                             <input type="hidden" name="jxgt_catid[]" value="[{$category.oxid}]">
                         </td>
                         <td class="[{$listclass}]">&nbsp;[{ $category.oxtitle }]&nbsp;</td>
+                        <td class="[{$listclass}]" align="right">&nbsp;[{ $category.artcount }]&nbsp;</td>
                         <td class="[{$listclass}]"><input id="" name="jxgt_taxoval[]" size="120" value="[{ $category.taxonomy }]" class="flatInput"></td>
                     </tr>
                 [{/foreach}]

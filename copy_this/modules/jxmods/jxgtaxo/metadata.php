@@ -12,8 +12,8 @@ $aModule = array(
     'id'           => 'jxgtaxo',
     'title'        => 'jxGTaxo - Google Product Taxonomy',
     'description'  => array(
-                        'de'=>'Definition der Google Produkt Taxonomie je Kategorie',
-                        'en'=>'Define the Google Product Taxonomy for each Category'
+                        'de' => 'Definition der Google Produkt Taxonomie je Kategorie',
+                        'en' => 'Define the Google Product Taxonomy for each Category'
                         ),
     'thumbnail'    => 'jxgtaxo.png',
     'version'      => '0.1',
@@ -34,10 +34,16 @@ $aModule = array(
                         ),
     'settings'     => array(
                         array(
-                            'group' => 'JXGTAXO_INCLUDEMODULES', 
-                            'name'  => 'sJxGTaxoIncludeFiles', 
-                            'type'  => 'str', 
-                            'value' => ''
+                            'group' => 'JXGTAXO_DISPLAY', 
+                            'name'  => 'sJxGTaxoDisplayInactive', 
+                            'type'  => 'bool', 
+                            'value' => TRUE
+                            ),
+                        array(
+                            'group' => 'JXGTAXO_DISPLAY', 
+                            'name'  => 'sJxGTaxoDisplayHidden', 
+                            'type'  => 'bool', 
+                            'value' => TRUE
                             )
                         )
     );
