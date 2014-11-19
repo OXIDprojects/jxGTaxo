@@ -30,14 +30,16 @@ class jxgtaxo extends oxAdminView
     public function render()
     {
         parent::render();
-        $oSmarty = oxUtilsView::getInstance()->getSmarty();
-        $oSmarty->assign( "oViewConf", $this->_aViewData["oViewConf"]);
-        $oSmarty->assign( "shop", $this->_aViewData["shop"]);
         
-        $this->jxGetCategoryList('oxrootid', '', '');
+        $this->jxGetCategoryList( 'oxrootid', '', '' );
         $this->jxSortCategoryList();
         
-        $oSmarty->assign("aCategories",$this->aCategories);
+        $oModule = oxNew('oxModule');
+        $oModule->load('jxgtaxo');
+        $this->_aViewData["sModuleId"] = $oModule->getId();
+        $this->_aViewData["sModuleVersion"] = $oModule->getInfo('version');
+
+        $this->_aViewData["aCategories"] = $this->aCategories;
 
         return $this->_sThisTemplate;
     }
@@ -46,8 +48,8 @@ class jxgtaxo extends oxAdminView
     public function saveTaxoValues()
     {
         $oDb = oxDb::getDb();
-        $aCatIds = oxConfig::getParameter( "jxgt_catid" ); 
-        $aTaxoVals = oxConfig::getParameter( "jxgt_taxoval" ); 
+        $aCatIds = $this->getConfig()->getRequestParameter( 'jxgt_catid' ); 
+        $aTaxoVals = $this->getConfig()->getRequestParameter( 'jxgt_taxoval' ); 
         foreach ($aTaxoVals as $key => $sTaxoValue) {
             $sSql = "UPDATE oxcategories SET jxgoogletaxonomy = '{$aTaxoVals[$key]}' WHERE oxid = '{$aCatIds[$key]}' ";
             $oDb->execute($sSql);
@@ -66,9 +68,9 @@ class jxgtaxo extends oxAdminView
         }
         
         $sWhere = "";
-        if ( $myConfig->getConfigParam("sJxGTaxoDisplayInactive") == FALSE )
+        if ( $myConfig->getConfigParam('sJxGTaxoDisplayInactive') == FALSE )
             $sWhere .= "AND c.oxactive = 1 ";
-        if ( $myConfig->getConfigParam("sJxGTaxoDisplayHidden") == FALSE )
+        if ( $myConfig->getConfigParam('sJxGTaxoDisplayHidden') == FALSE )
             $sWhere .= "AND c.oxhidden = 0 ";
         
         $sSql = "SELECT c.oxid, c.oxtitle, c.oxactive, c.oxhidden, "
@@ -78,6 +80,7 @@ class jxgtaxo extends oxAdminView
                 . "WHERE c.oxparentid = '$sParent' "
                     . $sWhere
                 . "ORDER BY c.oxtitle";
+        
         $oDb = oxDb::getDb( oxDB::FETCH_MODE_ASSOC );
         $rs = $oDb->Execute($sSql);
 
@@ -93,6 +96,8 @@ class jxgtaxo extends oxAdminView
             $rs->MoveNext();
             $i++;
         }
+        
+        return;
     }
     
     
@@ -103,23 +108,6 @@ class jxgtaxo extends oxAdminView
             $aSort[$key] = $aRow['oxtitle'];
         }
         array_multisort($aSort, SORT_ASC, SORT_STRING, $this->aCategories);
-    }
-    
-    
-    public function execute()
-    {
-        $url = oxConfig::getParameter( "jxcmd_url" );
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE); 
-        $timeStart = time();
-        $output = curl_exec($ch).' ';
-        $this->exectime = time() - $timeStart;
-        $this->response = curl_getinfo( $ch );
-        curl_close($ch);
-        
-        $this->output = $output;
-        return;
     }
 
     
@@ -134,7 +122,7 @@ class jxgtaxo extends oxAdminView
         $sModuleId = $oModule->getId();
         
         $myConfig = oxRegistry::get("oxConfig");
-        $sModulePath = $myConfig->getConfigParam("sShopDir") . 'modules/' . $oModule->getModulePath("jxcmdboard");
+        $sModulePath = $myConfig->getConfigParam('sShopDir') . 'modules/' . $oModule->getModulePath('jxgtaxo');
         
         return $sModulePath;
     }
