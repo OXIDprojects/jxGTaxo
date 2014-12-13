@@ -20,7 +20,7 @@ Example:
 **IMPORTANT**  
 This module requires an additional module for exporting/creating a Google productfeed file.
   
-Tested in OXID 4.7, 4.8 and 4.9
+Tested in OXID 4.6
 
 ## Release history ##
 
