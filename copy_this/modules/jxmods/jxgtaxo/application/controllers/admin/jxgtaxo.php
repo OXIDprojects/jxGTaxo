@@ -48,8 +48,8 @@ class jxgtaxo extends oxAdminView
     public function saveTaxoValues()
     {
         $oDb = oxDb::getDb();
-        $aCatIds = $this->getConfig()->getParameter( 'jxgt_catid' ); 
-        $aTaxoVals = $this->getConfig()->getParameter( 'jxgt_taxoval' ); 
+        $aCatIds = $this->getConfig()->getRequestParameter( 'jxgt_catid' ); 
+        $aTaxoVals = $this->getConfig()->getRequestParameter( 'jxgt_taxoval' ); 
         foreach ($aTaxoVals as $key => $sTaxoValue) {
             $sSql = "UPDATE oxcategories SET jxgoogletaxonomy = '{$aTaxoVals[$key]}' WHERE oxid = '{$aCatIds[$key]}' ";
             $oDb->execute($sSql);
@@ -121,7 +121,7 @@ class jxgtaxo extends oxAdminView
         $oModule->load($sModuleId);
         $sModuleId = $oModule->getId();
         
-        $myConfig = $this->getConfig();
+        $myConfig = oxRegistry::get("oxConfig");
         $sModulePath = $myConfig->getConfigParam('sShopDir') . 'modules/' . $oModule->getModulePath('jxgtaxo');
         
         return $sModulePath;
