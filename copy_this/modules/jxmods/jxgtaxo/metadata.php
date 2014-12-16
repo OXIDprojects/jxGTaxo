@@ -16,7 +16,7 @@ $aModule = array(
                         'en' => 'Define the Google Product Taxonomy for each Category'
                         ),
     'thumbnail'    => 'jxgtaxo.png',
-    'version'      => '0.1.1-v46',
+    'version'      => '0.1.1',
     'author'       => 'Joachim Barthel',
     'url'          => 'https://github.com/job963/jxGTaxo',
     'email'        => 'jobarthel@gmail.com',

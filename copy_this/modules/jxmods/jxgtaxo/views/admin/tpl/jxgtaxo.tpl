@@ -1,3 +1,4 @@
+[{*debug*}]
 [{include file="headitem.tpl" title="GENERAL_ADMIN_TITLE"|oxmultilangassign box=" "}]
 <link href="[{$oViewConf->getModuleUrl('jxgtaxo','out/admin/src/jxgtaxo.css')}]" type="text/css" rel="stylesheet">
 
@@ -16,13 +17,16 @@
     }
 </script>
 
+[{php}] 
+    $sIsoLang = oxLang::getInstance()->getLanguageAbbr(); 
+    $this->assign('IsoLang', $sIsoLang);
+[{/php}]
+
 [{assign var="oConfig" value=$oViewConf->getConfig()}]
 
 <body>
 <div class="center" style="height:100%;">
     <h1>[{ oxmultilang ident="JXGTAXO_TITLE" }]</h1>
-    <div style="position:absolute;top:4px;right:8px;color:gray;font-size:0.9em;border:1px solid gray;border-radius:3px;">&nbsp;[{$sModuleId}]&nbsp;[{$sModuleVersion}]&nbsp;</div>
-    
     <p>
         <form name="transfer" id="transfer" action="[{ $shop->selflink }]" method="post">
             [{ $shop->hiddensid }]
@@ -31,7 +35,7 @@
             <input type="hidden" name="updatelist" value="1">
         </form>
         
-        <div class="jxgtaxo">
+        <div class="jxcmdboard">
             
             [{if $output}]
                 <div id="popupwin" class="jxpopupwin">
@@ -50,7 +54,7 @@
             <div id="grayout" class="jxgrayout" [{if $output}]style="display:block;"[{else}]style="display:none;"[{/if}]></div>
 
 
-            <form name="jxgtaxo" id="jxgtaxo" action="[{ $oViewConf->getSelfLink() }]" method="post">
+            <form name="jxgtaxo" id="jxcmd" action="[{ $oViewConf->getSelfLink() }]" method="post">
                 [{ $oViewConf->getHiddenSid() }]
                 <input type="hidden" name="cl" value="[{$oViewConf->getActiveClassName()}]">
                 <input type="hidden" name="fnc" value="">
