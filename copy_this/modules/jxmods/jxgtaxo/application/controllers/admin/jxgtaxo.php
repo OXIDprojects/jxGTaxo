@@ -18,7 +18,7 @@
  *
  * @link      https://github.com/job963/jxGTaxo
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @copyright (C) Joachim Barthel 2014
+ * @copyright (C) Joachim Barthel, 2014-2015
  *
  */
  
@@ -38,6 +38,10 @@ class jxgtaxo extends oxAdminView
         $oModule->load('jxgtaxo');
         $this->_aViewData["sModuleId"] = $oModule->getId();
         $this->_aViewData["sModuleVersion"] = $oModule->getInfo('version');
+        foreach ($this->_aViewData["languages"] as $lang) {
+            if ($lang->selected)
+                $this->_aViewData["actIsoLang"] = $lang->abbr;
+        }
 
         $this->_aViewData["aCategories"] = $this->aCategories;
 

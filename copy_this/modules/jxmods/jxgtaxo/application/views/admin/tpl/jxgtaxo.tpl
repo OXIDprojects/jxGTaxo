@@ -32,23 +32,6 @@
         </form>
         
         <div class="jxgtaxo">
-            
-            [{if $output}]
-                <div id="popupwin" class="jxpopupwin">
-                    <div style="[{if $response == "200"}]background:#008000;[{else}]background:#800000;[{/if}]color:#fff;padding:4px;">
-                        <span style="padding-left:10px;font-size:1.2em;font-weight:bold;">[{$exectitle}]</span> 
-                        <span style="padding-left:40px;">[{ oxmultilang ident="JXCMDBOARD_DURATION" }]: <b>[{$exectime}] sec.</b></span>
-                        <span style="padding-left:40px;">[{ oxmultilang ident="JXCMDBOARD_RESPONSE" }]: <b>[{if $response == "200"}]OK[{else}]ERROR: [{$response}][{/if}]</b></span>
-                    </div>
-                    <div class="jxpopupclose" onclick="document.getElementById('popupwin').style.display='none';document.getElementById('grayout').style.display='none';">
-                        <div style="height:3px;"></div>
-                        <b>X</b></div>
-                    <div class="jxpopupcontent">[{ $output }]</div>
-                </div>
-            [{/if}]
-            
-            <div id="grayout" class="jxgrayout" [{if $output}]style="display:block;"[{else}]style="display:none;"[{/if}]></div>
-
 
             <form name="jxgtaxo" id="jxgtaxo" action="[{ $oViewConf->getSelfLink() }]" method="post">
                 [{ $oViewConf->getHiddenSid() }]
@@ -59,6 +42,21 @@
                 <input type="submit"
                     onClick="document.forms['jxgtaxo'].elements['fnc'].value = 'saveTaxoValues';" 
                     value=" [{ oxmultilang ident="GENERAL_SAVE" }] " [{ $readonly }]>
+
+                <div style="text-align:right;margin-right:1%;">
+                    [{if $actIsoLang == "de"}]
+                        [<a href="http://www.google.com/basepages/producttype/taxonomy.de-DE.txt" target="_blank">taxonomy.de-DE.txt</a>]
+                    [{elseif $actIsoLang == "en"}]
+                        [<a href="http://www.google.com/basepages/producttype/taxonomy.en-US.txt" target="_blank">taxonomy.en-US.txt</a>]
+                        [{* http://www.google.com/basepages/producttype/taxonomy.en-GB.txt *}]
+                    [{elseif $actIsoLang == "fr"}]
+                        [<a href="http://www.google.com/basepages/producttype/taxonomy.fr-FR.txt" target="_blank">taxonomy.fr-FR.txt</a>]
+                    [{elseif $actIsoLang == "it"}]
+                        [<a href="http://www.google.com/basepages/producttype/taxonomy.it-IT.txt" target="_blank">taxonomy.it-IT.txt</a>]
+                    [{elseif $actIsoLang == "es"}]
+                        [<a href="http://www.google.com/basepages/producttype/taxonomy.es-ES.txt" target="_blank">taxonomy.es-ES.txt</a>]
+                    [{/if}]
+                </div>
                 <div>&nbsp;</div>
 
                 <div id="liste">
