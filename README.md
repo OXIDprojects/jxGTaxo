@@ -1,3 +1,7 @@
+
+**> > > This project is closed, please use the follow-up module [jxTaxo](https://github.com/job963/jxTaxo), which includes jxGTaxo < < <**
+
+
 #jxGTaxo#
 
 OXID eShop Admin Extension for Setting up the Google Taxonomy for each Category.
